@@ -209,7 +209,7 @@
                                meta-descr meta-keywords from-subtree)
   "Write the xml file for pluxml."
 
-  (with-current-buffer (org-html-export-as-my-html nil from-subtree nil 't)
+  (with-current-buffer (org-html-export-as-html nil from-subtree nil 't)
     (kill-new (buffer-string))
     (kill-buffer)
     )
