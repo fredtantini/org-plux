@@ -1,0 +1,70 @@
+* Using org-mode to blog with [[http://pluxml.org/][PluXml]]
+
+- Export org file or subheading to PluXml file
+- Update tags.xml file
+
+* Config
+Change some default values that I use, but you don't:
+
+- =plx/home-blog-dir-path=: path for your org articles (=/home/user/blog_articles/=)
+- =plx/data-path=:  data folder path (=/var/www/html/blog/data/= but, a tramp path should work)
+
+Unless you have tweak your installation, this should not be changed:
+- =plx/articles-path=: relative path from =plx/data-path= to articles folder (=articles/=)
+- =plx/categories-file=: relative path from =plx/data-path= to the category file (=configuration/categories.xml=)
+- =plx/users-file=: relative path from =plx/data-path= to the users file (=configuration/users.xml=)
+- =plx/tags-file=: relative path from =plx/data-path= to the tags file (=configuration/tags.xml=)
+
+Default values when creating a new article:
+- =plx/default-author=: "001" (check users.xml)
+- =plx/default-cat=: default category. The string url of the categorie, or emply if none.
+- =plx/default-draft=: "t" means published as a draft. Empty for the opposite.
+- =plx/default-waiting-validation=: "t" means published as a draft. Empty for the opposite.
+- =plx/default-allow-com=: "1" means allows com. "0" for the opposite
+- =plx/default-template=: "article.php"
+- =plx/default-tags=: ""
+- =plx/default-meta-descr=: ""
+- =plx/default-meta-keyword=: ""
+
+* Create articles from multiple org files
+- Use ‰C-c x n‰ to create a new post.
+- The title is asked, sanitized, and the file is created in =plx/home-blog-dir-path= in the =yyyy/mm/dd= folder.
+- It will create a header using default values, and the next article id possible:
+#+BEGIN_SRC org
+  ,#+TITLE: New article from C-c x n
+  ,#+DATE: <2016-04-09 16:09:42>
+  ,#+AUTHOR: Fred 
+  ,#+PLX_CAT: 
+  ,#+PLX_DRAFT: t
+  ,#+PLX_WAITING_VALIDATION: 
+  ,#+PLX_ALLOW_COM: 1
+  ,#+PLX_TEMPLATE: article.php
+  ,#+PLX_TAGS: 
+  ,#+PLX_META_DESCR: 
+  ,#+PLX_META_KEYWORDS: 
+  ,#+PLX_ARTICLE_ID: 0041
+#+END_SRC
+- Use ‰C-c x a‰ to create the article in the =plx/articles-path= folder, and update the tags file.
+- Copy the xml files (the new article and the tags.xml) on your server.
+
+* Create articles from a single file
+The parent heading must be the category. You can use ‰C-c C-c‰ to choose tags :
+#+BEGIN_SRC org
+  ,* category1
+  ,* another_category
+  ,** first article
+  foo
+  ,*** bar
+  foobar
+  ,** another article with tags                                        :foo:bar:
+  spam
+#+END_SRC
+- Use ‰C-c x s‰ to create the article in the =plx/articles-path= folder, and update the tags file. 
+- Default values will be used, the id for the article will be a new one (you can't update for the moment).
+- Copy the xml files (the new article and the tags.xml) on your server.
+
+* Todo
+- use drawers to set things (especially id) in the subheadings method
+- if category doesn't exist: create it
+- use =org-export-dispatch= 
+- …
